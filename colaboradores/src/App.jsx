@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.css'; // importamos los estilos CSS de Bootstrap
 import Listado from './components/Listado';
 import Formulario from './components/Formulario';
 import Buscador from './components/Buscador';

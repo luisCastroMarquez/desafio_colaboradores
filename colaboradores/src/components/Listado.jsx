@@ -4,17 +4,30 @@ const Listado  = () => {
     return (
         <div>
             <h2>Listado de Colaboradores </h2>
-            <ul>
-                {BaseColaboradores.map((colaborador) => (
-                    <li key={colaborador.id}>
-                        <strong>Nombre:</strong> {colaborador.nombre}<br />
-                        <strong>Correo:</strong> {colaborador.correo}<br />
-                        <strong>Edad:</strong> {colaborador.edad}<br />
-                        <strong>Cargo:</strong> {colaborador.cargo}<br />
-                        <strong>Telefono:</strong> {colaborador.telefono}<br />
-                    </li>
-                ))}
-            </ul>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Edad</th>
+                        <th>Cargo</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {BaseColaboradores.map((Colaborador) => (
+                        <tr key={Colaborador.id}>
+                            <td>{Colaborador.id}</td>
+                            <td>{Colaborador.nombre}</td>
+                            <td>{Colaborador.correo}</td>
+                            <td>{Colaborador.edad}</td>
+                            <td>{Colaborador.cargo}</td>
+                            <td>{Colaborador.telefono}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };
