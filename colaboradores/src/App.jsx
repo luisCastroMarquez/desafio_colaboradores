@@ -1,18 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.css'; // importamos los estilos CSS de Bootstrap
-import Listado from './components/Listado';
 import Formulario from './components/Formulario';
-import Buscador from './components/Buscador';
-import Alert from './components/Alert';
+import Listado from './components/Listado';
 import { BaseColaboradores } from './BaseColaboradores';
 
 
-const App = () => {
+
+    const App = () => {
+
+    const agregarColaborador = (colaborador) => {
+        console.log(' Colaborador agregado', colaborador);
+    };
+
+
+
     return (
         <div>
-            <Listado colaboradores={BaseColaboradores}/>
-            <Formulario/>
-            <Buscador/>
-            <Alert/>
+            < Formulario onAgregarColaborador={agregarColaborador}/>
+            < Listado colaboradores= { BaseColaboradores}/>
         </div>
     );
 };
