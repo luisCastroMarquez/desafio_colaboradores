@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import Alert from './Alert';
 
-const Formulario = ({ onAgregarColaborador}) => {
+const Formulario = ({ onAgregarColaborador }) => {
     const [colaborador, setColaborador] = useState({
         nombre: '',
         correo: '',
@@ -8,6 +9,7 @@ const Formulario = ({ onAgregarColaborador}) => {
         cargo: '',
         telefono:''
     });
+    const [ alerta, setAlerta] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,11 +27,24 @@ const Formulario = ({ onAgregarColaborador}) => {
             colaborador.telefono.trim() === ''
 
         ) {
-            alert (' Por favor, complete todo los campos.');
+            setAlerta ({
+                mensaje: 'Por favor, complete todo los campos.',
+                color: 'danger'
+            });
+            return;
+        }
+
+        if (!ValidateEmail(colaborador.correo)) {
+            setAlerta ({ mensaje: 'Ingresar el correo electrinico valido.'});
             return;
         }
 
         onAgregarColaborador(colaborador);
+        setAlerta({
+            mensaje : 'Colaborador agregado exitosamente.',
+            color: 'success'
+        });
+
             //LIMPIAR EL FORMULARIO
         setColaborador({
             nombre: '',
@@ -38,9 +53,20 @@ const Formulario = ({ onAgregarColaborador}) => {
             cargo: '',
             telefono: ''
         });
+
+        // Limpiar la alerta despues de 3 segundos
+        setTimeout(() => {
+            setAlerta(null);
+        }, 3000);
     };
 
     const { nombre, correo, edad, cargo, telefono } = colaborador;
+
+    // Funcion para validar el correo electronico
+    const ValidateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
 
     return (
         <div>
@@ -53,13 +79,13 @@ const Formulario = ({ onAgregarColaborador}) => {
                         id="nombre"
                         value={nombre}
                         onChange={handleInputChange}
-                        name='nombre'
+                        name="nombre"
                     />
                 </div>
                 <div>
                     <label htmlFor="correo">Correo</label>
                     <input
-                        type="email"
+                        type="mail"
                         id="correo"
                         value={correo}
                         onChange={handleInputChange}
@@ -96,6 +122,7 @@ const Formulario = ({ onAgregarColaborador}) => {
                         name='telefono'
                     />
                     <button type='submit'> Agregar Colaborador</button>
+                    {alerta && <Alert mensaje={alerta.mensaje} color={alerta.color}/>}
                 </div>
             </form>
         </div>

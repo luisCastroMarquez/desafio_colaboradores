@@ -5,7 +5,7 @@ import { BaseColaboradores } from './BaseColaboradores';
 
 
 
-    const App = () => {
+const App = () => {
 
     const agregarColaborador = (colaborador) => {
         console.log(' Colaborador agregado', colaborador);
@@ -15,6 +15,7 @@ import { BaseColaboradores } from './BaseColaboradores';
 
     return (
         <div>
+            <h1>Aplicación de Colaboradores</h1>
             < Formulario onAgregarColaborador={agregarColaborador}/>
             < Listado colaboradores= { BaseColaboradores}/>
         </div>
