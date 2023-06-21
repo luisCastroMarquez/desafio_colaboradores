@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Alert from './Alert';
 
-const Formulario = ({ onAgregarColaborador }) => {
+const Formulario = ({ onAgregarColaborador, onMostrarError }) => {
     const [colaborador, setColaborador] = useState({
         nombre: '',
         correo: '',
@@ -25,9 +25,8 @@ const Formulario = ({ onAgregarColaborador }) => {
             colaborador.edad.trim() === '' ||
             colaborador.cargo.trim() === '' ||
             colaborador.telefono.trim() === ''
-
         ) {
-            setAlerta ({
+            onMostrarError({
                 mensaje: 'Por favor, complete todo los campos.',
                 color: 'danger'
             });
@@ -35,7 +34,10 @@ const Formulario = ({ onAgregarColaborador }) => {
         }
 
         if (!ValidateEmail(colaborador.correo)) {
-            setAlerta ({ mensaje: 'Ingresar el correo electrinico valido.'});
+            onMostrarError({
+                mensaje: 'Ingresar el correo electrinico valido.',
+                color: 'danger',
+            });
             return;
         }
 
@@ -57,7 +59,7 @@ const Formulario = ({ onAgregarColaborador }) => {
         // Limpiar la alerta despues de 3 segundos
         setTimeout(() => {
             setAlerta(null);
-        }, 3000);
+        }, 2000);
     };
 
     const { nombre, correo, edad, cargo, telefono } = colaborador;
@@ -89,7 +91,7 @@ const Formulario = ({ onAgregarColaborador }) => {
                         id="correo"
                         value={correo}
                         onChange={handleInputChange}
-                        name='correo'
+                        name="correo"
                     />
                 </div>
                 <div>
@@ -99,7 +101,7 @@ const Formulario = ({ onAgregarColaborador }) => {
                         id="edad"
                         value={edad}
                         onChange={handleInputChange}
-                        name='edad'
+                        name="edad"
                     />
                 </div>
                 <div>
@@ -109,7 +111,7 @@ const Formulario = ({ onAgregarColaborador }) => {
                         id="cargo"
                         value={cargo}
                         onChange={handleInputChange}
-                        name='cargo'
+                        name="cargo"
                     />
                 </div>
                 <div>
@@ -119,10 +121,10 @@ const Formulario = ({ onAgregarColaborador }) => {
                         id="telefono"
                         value={telefono}
                         onChange={handleInputChange}
-                        name='telefono'
+                        name="telefono"
                     />
-                    <button type='submit'> Agregar Colaborador</button>
-                    {alerta && <Alert mensaje={alerta.mensaje} color={alerta.color}/>}
+                    <button type="submit"> Agregar Colaborador</button>
+                    {alerta && <Alert mensaje={alerta.mensaje} color={alerta.color} />}
                 </div>
             </form>
         </div>
