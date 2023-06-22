@@ -9,9 +9,11 @@ const Buscador = ({ onBuscarColaboradores }) => {
         telefono: '',
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFiltro ({...filtro, [name]: value });
+    const handleChange = (e) => {
+        setFiltro ({
+            ...filtro,
+            [e.target.name] : e.target.value,
+        });
     };
 
     const handleSubmit = (e) => {
@@ -22,16 +24,23 @@ const Buscador = ({ onBuscarColaboradores }) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nombre"></label>
-                    <input
-                        type="text"
-                        id="nombre"
-                        value={filtro.nombre}
-                        onChange={handleInputChange}
-                        name="nombre"
-                        placeholder="Busca un colaborador"
-                    />
+                <div className="row">
+                    <div className="col-md-2">
+                        <input
+                            type="text"
+                            id="nombre"
+                            className="form-control"
+                            value={filtro.nombre}
+                            onChange={handleChange}
+                            name="nombre"
+                            placeholder="Busca un colaborador"
+                        />
+                    </div>
+                    <div className="col-md-2">
+                        <button type="submit" className="btn btn-primary">
+                            buscar
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

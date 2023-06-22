@@ -1,131 +1,136 @@
 import { useState } from 'react';
 import Alert from './Alert';
 
-const Formulario = ({ onAgregarColaborador, onMostrarError }) => {
+const Formulario = ({ onMostrarError }) => {
     const [colaborador, setColaborador] = useState({
         nombre: '',
         correo: '',
         edad: '',
         cargo: '',
-        telefono:''
+        telefono: '',
     });
-    const [ alerta, setAlerta] = useState(null);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setColaborador({...colaborador, [name]: value });
+    const [alerta, setAlerta] = useState(null);
+
+    const handleChange = (e) => {
+        setColaborador({
+            ...colaborador,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (
-            colaborador.nombre.trim() === '' ||
-            colaborador.correo.trim() === '' ||
-            colaborador.edad.trim() === '' ||
-            colaborador.cargo.trim() === '' ||
-            colaborador.telefono.trim() === ''
-        ) {
-            onMostrarError({
-                mensaje: 'Por favor, complete todo los campos.',
-                color: 'danger'
-            });
-            return;
-        }
-
-        if (!ValidateEmail(colaborador.correo)) {
-            onMostrarError({
-                mensaje: 'Ingresar el correo electrinico valido.',
+        // Validar campos vacíos
+        if (!colaborador.nombre || !colaborador.correo  || !colaborador.edad || !colaborador.telefono || !colaborador.cargo || !colaborador.telefono) {
+            setAlerta({
+                mensaje: 'Todos los campos son obligatorios.',
                 color: 'danger',
             });
-            return;
+
+        // Ocultar  alerta
+            setTimeout (() => {
+                setAlerta(null);
+            }, 3000);
+
+        return;
         }
 
-        onAgregarColaborador(colaborador);
-        setAlerta({
-            mensaje : 'Colaborador agregado exitosamente.',
-            color: 'success'
-        });
+        //Enviar el objeto colaborador al componete padre
+        onMostrarError(colaborador);
 
-            //LIMPIAR EL FORMULARIO
+        // Realizar lógica de envío del formulario o guardar el colaborador
+
+        // Limpiar los campos del formulario
         setColaborador({
             nombre: '',
-            correo: '',
+            correo:'',
             edad: '',
             cargo: '',
-            telefono: ''
+            telefono: '',
+        })
+
+        // Mostrar mensaje de éxito
+        setAlerta({
+            mensaje: 'Colaborador agregado exitosamente.',
+            color: 'success',
         });
 
-        // Limpiar la alerta despues de 3 segundos
-        setTimeout(() => {
+        // Ocultar  mensaje
+        setTimeout (() => {
             setAlerta(null);
-        }, 2000);
-    };
-
-    const { nombre, correo, edad, cargo, telefono } = colaborador;
-
-    // Funcion para validar el correo electronico
-    const ValidateEmail = (email) => {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
+        }, 3000);
     };
 
     return (
-        <div>
-            <h2>Formalario de Colaboradores</h2>
+        <div className="mb-3">
+            <h2>Agregar colaborador</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nombre">Nombre</label>
+                <div className="mb-3">
+                    <label className="form-label"></label>
                     <input
                         type="text"
                         id="nombre"
-                        value={nombre}
-                        onChange={handleInputChange}
+                        className="form-control"
+                        value={colaborador.nombre}
+                        onChange={handleChange}
                         name="nombre"
+                        placeholder="Nombre"
                     />
                 </div>
-                <div>
-                    <label htmlFor="correo">Correo</label>
+                <div className="mb-2">
+                    <label className="form-label"></label>
                     <input
-                        type="mail"
-                        id="correo"
-                        value={correo}
-                        onChange={handleInputChange}
+                        type="email"
+                        id="email"
+                        className="form-control"
+                        value={colaborador.correo}
+                        onChange={handleChange}
                         name="correo"
+                        placeholder="Correo"
                     />
                 </div>
-                <div>
-                    <label htmlFor="edad">Edad</label>
+                <div className="mb-2">
+                    <label className="form-label"></label>
                     <input
-                        type="number"
-                        id="edad"
-                        value={edad}
-                        onChange={handleInputChange}
-                        name="edad"
+                        type='number'
+                        id='Edad'
+                        className='form-control'
+                        value={colaborador.edad}
+                        onChange={handleChange}
+                        name='edad'
+                        placeholder='Edad'
                     />
                 </div>
-                <div>
-                    <label htmlFor="cargo">Cargo</label>
+                <div className="mb-2">
+                    <label className="form-label"></label>
                     <input
                         type="text"
                         id="cargo"
-                        value={cargo}
-                        onChange={handleInputChange}
+                        className="form-control"
+                        value={colaborador.cargo}
+                        onChange={handleChange}
                         name="cargo"
+                        placeholder="Cargo"
                     />
                 </div>
-                <div>
-                    <label htmlFor="telefono">Telefono</label>
+                <div className='mb-2'>
+                    <label className='form-label'></label>
                     <input
                         type="tel"
                         id="telefono"
-                        value={telefono}
-                        onChange={handleInputChange}
+                        className="form-control"
+                        value={colaborador.telefono}
+                        onChange={handleChange}
                         name="telefono"
+                        placeholder="Teléfono"
                     />
-                    <button type="submit"> Agregar Colaborador</button>
-                    {alerta && <Alert mensaje={alerta.mensaje} color={alerta.color} />}
                 </div>
+                <button className="btn btn-primary btn-md" type="submit">
+                    Agregar Colaborador
+                </button>
+                {alerta && <Alert mensaje={alerta.mensaje} color={alerta.color} />}
             </form>
         </div>
     );

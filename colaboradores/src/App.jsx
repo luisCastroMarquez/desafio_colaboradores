@@ -3,13 +3,19 @@ import Formulario from './components/Formulario';
 import Listado from './components/Listado';
 import Buscador from './components/Buscador';
 import { BaseColaboradores } from './BaseColaboradores';
+import Alert from './components/Alert';
 
 
 const App = () => {
     const [colaboradores, setColaboradores] = useState(BaseColaboradores);
+    const [mensaje, setMensaje] = useState(null);
 
     const agregarColaborador = (colaborador) => {
         setColaboradores([...colaboradores, colaborador]);
+        setMensaje({ tipo: 'success', texto: 'Colaborador agregado corrrectamente' });
+        setTimeout(() => {
+            setMensaje(null);
+        }, 2000);
     };
 
     const eliminarColaborador = (id) => {
@@ -36,6 +42,7 @@ const App = () => {
         <>
             <div>
                 <h1>Lista de Colaboradores</h1>
+                {mensaje && <Alert mensaje={mensaje.texto} tipo={mensaje.tipo}/>}
                 <Buscador onBuscarColaboradores={buscarColaboradores} />
                 <Listado colaboradores={colaboradores}
                     onEliminarColaborador={eliminarColaborador}/>
