@@ -1,50 +1,36 @@
+// Importación de módulos y componentes necesarios
 import { useState } from "react";
 
-const Buscador = ({ onBuscarColaboradores }) => {
-    const [filtro, setFiltro] = useState({
-        nombre: '',
-        correo: '',
-        edad: '',
-        cargo: '',
-        telefono: '',
-    });
+const Buscador = ({ buscarColaboradores }) => {
+  // Estado para almacenar el valor del filtro de búsqueda
+  const [filtro, setFiltro] = useState("");
 
-    const handleChange = (e) => {
-        setFiltro ({
-            ...filtro,
-            [e.target.name] : e.target.value,
-        });
-    };
+  // Estado para almacenar el valor del filtro de búsqueda
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setFiltro(value);
+    buscarColaboradores(value);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onBuscarColaboradores(filtro);
-    };
-
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-md-2">
-                        <input
-                            type="text"
-                            id="nombre"
-                            className="form-control"
-                            value={filtro.nombre}
-                            onChange={handleChange}
-                            name="nombre"
-                            placeholder="Busca un colaborador"
-                        />
-                    </div>
-                    <div className="col-md-2">
-                        <button type="submit" className="btn btn-primary">
-                            buscar
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    );
+  // Renderización del componente Buscador
+  return (
+    <div
+      className="table-responsive"
+      style={{ display: "flex", flexDirection: "column", padding: "15px 0px" }}
+    >
+      <div style={{ display: "flex", width: "350px" }}>
+        <label htmlFor="filtro" className="form-label"></label>
+        <input
+          type="text"
+          id="filtro"
+          className="form-control"
+          value={filtro}
+          onChange={handleChange}
+          placeholder="Busca un colaborador"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Buscador;
